@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class SmartHome {
-    Collection<Room> rooms;
+    private Collection<Room> rooms;
 
     public SmartHome() {
         rooms = new ArrayList<>();
@@ -20,5 +20,15 @@ public class SmartHome {
 
     public Collection<Room> getRooms() {
         return rooms;
+    }
+
+    public void turnOffAllLights() {
+        for (Room homeRoom : getRooms()) {
+            for (Light light : homeRoom.getLights()) {
+                light.setOn(false);
+                SensorCommand command = new SensorCommand(CommandType.LIGHT_OFF, light.getId());
+                SensorCommandExecutor.executeCommand(command);
+            }
+        }
     }
 }
