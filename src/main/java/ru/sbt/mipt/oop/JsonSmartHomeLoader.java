@@ -9,10 +9,16 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class JsonSmartHomeLoader implements SmartHomeLoader {
+    private Gson gson;
+    private String json;
+
+    public JsonSmartHomeLoader(String fileName) throws IOException {
+        gson = new Gson();
+        json = new String(Files.readAllBytes(Paths.get(fileName)));
+    }
+
     @Override
-    public SmartHome load(String fileName) throws IOException {
-        Gson gson = new Gson();
-        String json = new String(Files.readAllBytes(Paths.get(fileName)));
+    public SmartHome load() {
         return gson.fromJson(json, SmartHome.class);
     }
 }

@@ -19,7 +19,7 @@ public class Room {
         return lights;
     }
 
-    public Light getLightByEventId(String id) {
+    public Light getLightById(String id) {
         for (Light light: getLights()) {
             if (light.getId().equals(id)) {
                 return light;
@@ -28,7 +28,7 @@ public class Room {
         return null;
     }
 
-    public Door getDoorByEventId(String id) {
+    public Door getDoorById(String id) {
         for (Door door: getDoors()) {
             if (door.getId().equals(id)) {
                 return door;

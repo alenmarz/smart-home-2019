@@ -3,6 +3,6 @@ package ru.sbt.mipt.oop;
 import java.io.IOException;
 
 public interface SmartHomeLoader {
-    SmartHome load(String fileName) throws IOException;
+    SmartHome load() throws IOException;
 }
 

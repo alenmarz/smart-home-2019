@@ -3,19 +3,29 @@ package ru.sbt.mipt.oop;
 import static ru.sbt.mipt.oop.SensorEventType.LIGHT_OFF;
 import static ru.sbt.mipt.oop.SensorEventType.LIGHT_ON;
 
-public class LightEventHandler implements SensorEventHandler {
+public class LightEventHandler implements EventHandler {
+    private SmartHome smartHome;
+
+    public LightEventHandler(SmartHome smartHome) {
+        this.smartHome = smartHome;
+    }
+
     @Override
-    public void handleEvent(SmartHome smartHome, SensorEvent event) {
-        if (!isLightEvent(event)) return;
+    public void handleEvent(Object event) {
+        SensorEvent sensorEvent = (SensorEvent) event;
+        if (!isLightEvent(sensorEvent)) return;
 
         for (Room room : smartHome.getRooms()) {
-            Light light = room.getLightByEventId(event.getObjectId());
-            changeLightState(room, light, event.getType() == LIGHT_ON);
+            Light light = room.getLightById(sensorEvent.getObjectId());
+            if (light != null) {
+                changeLightState(room, light, sensorEvent.getType() == LIGHT_ON);
+            }
         }
     }
 
-    private boolean isLightEvent(SensorEvent event) {
-        return event.getType() == LIGHT_ON || event.getType() == LIGHT_OFF;
+    private boolean isLightEvent(Object event) {
+        SensorEvent sensorEvent = (SensorEvent) event;
+        return sensorEvent.getType() == LIGHT_ON || sensorEvent.getType() == LIGHT_OFF;
     }
 
     private void changeLightState(Room room, Light light, boolean turnedOn) {

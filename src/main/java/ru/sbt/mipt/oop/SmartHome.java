@@ -21,14 +21,4 @@ public class SmartHome {
     public Collection<Room> getRooms() {
         return rooms;
     }
-
-    public void turnOffAllLights() {
-        for (Room homeRoom : getRooms()) {
-            for (Light light : homeRoom.getLights()) {
-                light.setOn(false);
-                SensorCommand command = new SensorCommand(CommandType.LIGHT_OFF, light.getId());
-                SensorCommandExecutor.executeCommand(command);
-            }
-        }
-    }
 }

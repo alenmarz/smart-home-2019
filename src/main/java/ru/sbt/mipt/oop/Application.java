@@ -7,31 +7,32 @@ import java.util.Collection;
 public class Application {
 
     public static void main(String... args) throws IOException {
-        SmartHomeLoader smartHomeLoader = new JsonSmartHomeLoader();
-        SmartHome smartHome = smartHomeLoader.load("smart-home-1.js");
-        startEventsCycle(smartHome);
+        SmartHome smartHome = new JsonSmartHomeLoader("smart-home-1.js").load();
+        CommandExecutor executor = new SensorCommandExecutor();
+        EventProvider eventProvider = new RandomSensorEventProvider();
+        startEventsCycle(smartHome, eventProvider, executor);
     }
 
-    private static void startEventsCycle(SmartHome smartHome) {
-        SensorEvent event = RandomSensorEventProvider.getNextSensorEvent();
-        Collection<SensorEventHandler> eventHandlers = configureEventProcessors();
+    private static void startEventsCycle(SmartHome smartHome, EventProvider eventProvider, CommandExecutor executor) {
+        SensorEvent event = (SensorEvent) eventProvider.getNextEvent();
+        Collection<EventHandler> eventHandlers = configureEventProcessors(smartHome, executor);
 
         while (event != null) {
             System.out.println("Got event: " + event);
 
-            for (SensorEventHandler eventHandler : eventHandlers) {
-                eventHandler.handleEvent(smartHome, event);
+            for (EventHandler eventHandler : eventHandlers) {
+                eventHandler.handleEvent(event);
             }
 
-            event = RandomSensorEventProvider.getNextSensorEvent();
+            event = (SensorEvent) eventProvider.getNextEvent();
         }
     }
 
-    private static Collection<SensorEventHandler> configureEventProcessors() {
-        Collection<SensorEventHandler> eventProcessors = new ArrayList<>();
-        eventProcessors.add(new LightEventHandler());
-        eventProcessors.add(new DoorEventHandler());
-        eventProcessors.add(new HallDoorEventHandler());
+    private static Collection<EventHandler> configureEventProcessors(SmartHome smartHome, CommandExecutor executor) {
+        Collection<EventHandler> eventProcessors = new ArrayList<>();
+        eventProcessors.add(new LightEventHandler(smartHome));
+        eventProcessors.add(new DoorEventHandler(smartHome));
+        eventProcessors.add(new HallDoorEventHandler(smartHome, executor));
         return eventProcessors;
     }
 }
