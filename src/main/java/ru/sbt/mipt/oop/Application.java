@@ -1,5 +1,9 @@
 package ru.sbt.mipt.oop;
 
+import ru.sbt.mipt.oop.event_handlers.DoorEventHandler;
+import ru.sbt.mipt.oop.event_handlers.LightEventHandler;
+import ru.sbt.mipt.oop.event_handlers.HallDoorEventHandler;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;

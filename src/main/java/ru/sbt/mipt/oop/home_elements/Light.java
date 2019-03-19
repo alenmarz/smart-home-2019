@@ -1,4 +1,11 @@
-package ru.sbt.mipt.oop;
+package ru.sbt.mipt.oop.home_elements;
+
+import javafx.util.Pair;
+import ru.sbt.mipt.oop.action.Action;
+import ru.sbt.mipt.oop.Actionable;
+import ru.sbt.mipt.oop.SensorEvent;
+
+import static ru.sbt.mipt.oop.SensorEventType.LIGHT_ON;
 
 public class Light {
     private boolean isOn;

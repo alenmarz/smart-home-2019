@@ -1,9 +1,13 @@
-package ru.sbt.mipt.oop;
+package ru.sbt.mipt.oop.home_elements;
+
+import javafx.util.Pair;
+import ru.sbt.mipt.oop.action.Action;
+import ru.sbt.mipt.oop.Actionable;
+import ru.sbt.mipt.oop.action.ActionType;
 
 import java.util.Collection;
 
-public class Room {
-    public static final String HALL = "hall";
+public class Room implements Actionable {
 
     private Collection<Light> lights;
     private Collection<Door> doors;
@@ -37,13 +41,27 @@ public class Room {
         return null;
     }
 
-
-
     public Collection<Door> getDoors() {
         return doors;
     }
 
     public String getName() {
         return name;
+    }
+
+    @Override
+    public void execute(Action action) {
+        if (action.getActionType() == ActionType.DOOR) {
+            for (Door door : doors) {
+                action.execute(door, name);
+            }
+        } else if (action.getActionType() == ActionType.LIGHT) {
+            for (Light light : lights) {
+                action.execute(light, name);
+                if (name.equals("hall")) {
+                    break;
+                }
+            }
+        }
     }
 }
