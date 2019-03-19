@@ -1,8 +1,15 @@
 package ru.sbt.mipt.oop;
 
-import ru.sbt.mipt.oop.event_handlers.DoorEventHandler;
-import ru.sbt.mipt.oop.event_handlers.LightEventHandler;
-import ru.sbt.mipt.oop.event_handlers.HallDoorEventHandler;
+import ru.sbt.mipt.oop.home.EventHandler;
+import ru.sbt.mipt.oop.home.command.CommandExecutor;
+import ru.sbt.mipt.oop.home.command.sensor.SensorCommandExecutor;
+import ru.sbt.mipt.oop.home.event.EventProvider;
+import ru.sbt.mipt.oop.home.event.sensor.RandomSensorEventProvider;
+import ru.sbt.mipt.oop.home.loader.JsonSmartHomeLoader;
+import ru.sbt.mipt.oop.home.objects.handlers.DoorEventHandler;
+import ru.sbt.mipt.oop.home.objects.handlers.LightEventHandler;
+import ru.sbt.mipt.oop.home.objects.handlers.HallDoorEventHandler;
+import ru.sbt.mipt.oop.home.SmartHome;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,7 +25,7 @@ public class Application {
     }
 
     private static void startEventsCycle(SmartHome smartHome, EventProvider eventProvider, CommandExecutor executor) {
-        SensorEvent event = (SensorEvent) eventProvider.getNextEvent();
+        Object event = eventProvider.getNextEvent();
         Collection<EventHandler> eventHandlers = configureEventProcessors(smartHome, executor);
 
         while (event != null) {
@@ -28,7 +35,7 @@ public class Application {
                 eventHandler.handleEvent(event);
             }
 
-            event = (SensorEvent) eventProvider.getNextEvent();
+            event = eventProvider.getNextEvent();
         }
     }
 
