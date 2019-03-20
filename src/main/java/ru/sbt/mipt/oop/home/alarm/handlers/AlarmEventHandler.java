@@ -2,11 +2,12 @@ package ru.sbt.mipt.oop.home.alarm.handlers;
 
 import ru.sbt.mipt.oop.home.EventHandler;
 import ru.sbt.mipt.oop.home.alarm.Alarm;
+import ru.sbt.mipt.oop.home.alarm.AlarmSystem;
 import ru.sbt.mipt.oop.home.alarm.event.AlarmEvent;
 import ru.sbt.mipt.oop.home.alarm.event.AlarmEventType;
 
 
-public class AlarmEventHandler extends EventHandler {
+public class AlarmEventHandler implements EventHandler {
     private Alarm alarm;
 
     AlarmEventHandler(Alarm alarm) {
@@ -19,9 +20,9 @@ public class AlarmEventHandler extends EventHandler {
         AlarmEventType type = event.getType();
 
         if (type == AlarmEventType.ALARM_ACTIVATE) {
-            alarm.getState().activate(event.getCode());
+            alarm.activate(event.getCode());
         } else if (type == AlarmEventType.ALARM_DEACTIVATE) {
-            alarm.getState().deactivate(event.getCode());
+            alarm.deactivate(event.getCode());
         }
     }
 }

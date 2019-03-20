@@ -1,19 +1,13 @@
 package ru.sbt.mipt.oop.home.alarm;
 
-public abstract class State {
-    public enum StateType {
+public interface State {
+    enum StateType {
         ACTIVATED, DEACTIVATED, ALARM
     }
 
-    protected Alarm alarm;
+    StateType getType();
 
-    public State(Alarm alarm) {
-        this.alarm = alarm;
-    }
-
-    public abstract StateType getType();
-
-    public abstract void activate(String code);
-    public abstract void deactivate(String code);
-    public abstract void setAlarmState();
+    void activate(String code);
+    void deactivate(String code);
+    void alarm();
 }

@@ -13,8 +13,6 @@ import ru.sbt.mipt.oop.home.SmartHome;
 import ru.sbt.mipt.oop.home.objects.Door;
 import ru.sbt.mipt.oop.home.objects.Light;
 import ru.sbt.mipt.oop.home.objects.Room;
-import ru.sbt.mipt.oop.home.objects.iterator.Iterator;
-import ru.sbt.mipt.oop.home.objects.iterator.LightIterator;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -37,9 +35,11 @@ class HallDoorEventHandlerTest {
                 break;
             }
         }
-        Iterator iterator = new LightIterator(smartHome);
-        while (iterator.hasNext()) {
-            Assert.assertFalse(((LightIterator) iterator).getNext().isOn());
+        for (Room room: rooms) {
+            Collection<Light> lights = room.getLights();
+            for (Light light: lights) {
+                Assert.assertFalse(light.isOn());
+            }
         }
     }
 

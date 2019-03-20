@@ -8,10 +8,11 @@ import ru.sbt.mipt.oop.home.event.sensor.SensorEvent;
 import static ru.sbt.mipt.oop.home.event.sensor.SensorEventType.LIGHT_OFF;
 import static ru.sbt.mipt.oop.home.event.sensor.SensorEventType.LIGHT_ON;
 
-public class LightEventHandler extends EventHandler {
+public class LightEventHandler implements EventHandler {
+    private SmartHome smartHome;
 
     public LightEventHandler(SmartHome smartHome) {
-        super(smartHome);
+        this.smartHome = smartHome;
     }
 
     @Override

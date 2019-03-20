@@ -2,7 +2,6 @@ package ru.sbt.mipt.oop.home.objects;
 
 import ru.sbt.mipt.oop.home.objects.action.Action;
 import ru.sbt.mipt.oop.home.objects.action.Actionable;
-import ru.sbt.mipt.oop.home.objects.action.ActionType;
 
 import java.util.Collection;
 
@@ -23,7 +22,7 @@ public class Room implements Actionable {
     }
 
     public Light getLightById(String id) {
-        for (Light light: getLights()) {
+        for (Light light : getLights()) {
             if (light.getId().equals(id)) {
                 return light;
             }
@@ -32,7 +31,7 @@ public class Room implements Actionable {
     }
 
     public Door getDoorById(String id) {
-        for (Door door: getDoors()) {
+        for (Door door : getDoors()) {
             if (door.getId().equals(id)) {
                 return door;
             }
@@ -50,17 +49,7 @@ public class Room implements Actionable {
 
     @Override
     public void execute(Action action) {
-        if (action.getActionType() == ActionType.DOOR) {
-            for (Door door : doors) {
-                action.execute(door, name);
-            }
-        } else if (action.getActionType() == ActionType.LIGHT) {
-            for (Light light : lights) {
-                action.execute(light, name);
-                if (name.equals("hall")) {
-                    break;
-                }
-            }
-        }
+        doors.forEach(door -> action.execute(door));
+        lights.forEach(light -> action.execute(light));
     }
 }

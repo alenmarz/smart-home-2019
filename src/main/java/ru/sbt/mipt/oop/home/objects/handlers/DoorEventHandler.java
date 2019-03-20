@@ -8,10 +8,11 @@ import ru.sbt.mipt.oop.home.event.sensor.SensorEvent;
 import static ru.sbt.mipt.oop.home.event.sensor.SensorEventType.DOOR_CLOSED;
 import static ru.sbt.mipt.oop.home.event.sensor.SensorEventType.DOOR_OPEN;
 
-public class DoorEventHandler extends EventHandler {
+public class DoorEventHandler implements EventHandler {
+    private SmartHome smartHome;
 
     public DoorEventHandler(SmartHome smartHome) {
-        super(smartHome);
+        this.smartHome = smartHome;
     }
 
     @Override

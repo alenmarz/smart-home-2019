@@ -2,21 +2,22 @@ package ru.sbt.mipt.oop.home.objects.action;
 
 import ru.sbt.mipt.oop.home.event.sensor.SensorEvent;
 import ru.sbt.mipt.oop.home.objects.Door;
+import ru.sbt.mipt.oop.home.objects.Light;
 
 import static ru.sbt.mipt.oop.home.event.sensor.SensorEventType.DOOR_OPEN;
-import static ru.sbt.mipt.oop.home.objects.action.ActionType.DOOR;
 
-public class DoorAction extends Action<Door> {
-    protected ActionType actionType = DOOR;
+public class DoorAction implements Action {
+    private SensorEvent event;
 
     public DoorAction(Object event) {
-        super(event);
+        this.event = (SensorEvent) event;
     }
 
     @Override
-    public void execute(Door door, String roomName) {
-        SensorEvent event = (SensorEvent) getEvent();
+    public void execute(Object object) {
+        if (!(object instanceof Door)) return;
 
+        Door door = (Door) object;
         if (door.getId().equals(event.getObjectId())) {
             changeDoorState(door, event.getType() == DOOR_OPEN);
         }
@@ -30,10 +31,5 @@ public class DoorAction extends Action<Door> {
     private void sayEventMessage(Door door,  boolean opened) {
         String stateWord = opened ? "opened" : "closed";
         System.out.println("Door " + door.getId() + " was " + stateWord);
-    }
-
-    @Override
-    public ActionType getActionType() {
-        return actionType;
     }
 }

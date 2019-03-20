@@ -1,6 +1,6 @@
 package ru.sbt.mipt.oop.home.objects.handlers;
 
-import ru.sbt.mipt.oop.home.objects.action.LightAction;
+import ru.sbt.mipt.oop.home.objects.action.AllLightsAction;
 import ru.sbt.mipt.oop.home.SmartHome;
 import ru.sbt.mipt.oop.home.EventHandler;
 import ru.sbt.mipt.oop.home.command.CommandExecutor;
@@ -11,12 +11,13 @@ import ru.sbt.mipt.oop.home.objects.Room;
 
 import static ru.sbt.mipt.oop.home.event.sensor.SensorEventType.DOOR_CLOSED;
 
-public class HallDoorEventHandler extends EventHandler {
+public class HallDoorEventHandler implements EventHandler {
+    private SmartHome smartHome;
     private SensorCommandExecutor executor;
 
 
     public HallDoorEventHandler(SmartHome smartHome, CommandExecutor executor) {
-        super(smartHome);
+        this.smartHome = smartHome;
         this.executor = (SensorCommandExecutor) executor;
     }
 
@@ -28,7 +29,7 @@ public class HallDoorEventHandler extends EventHandler {
         for (Room room: smartHome.getRooms()) {
             Door door = room.getDoorById(sensorEvent.getObjectId());
             if (room.getName().equals("hall") && door != null) {
-                smartHome.execute(new LightAction(sensorEvent, executor, smartHome));
+                smartHome.execute(new AllLightsAction(executor));
             }
         }
     }

@@ -2,29 +2,30 @@ package ru.sbt.mipt.oop.home.objects.handlers.decorator;
 
 
 import ru.sbt.mipt.oop.home.EventHandler;
+import ru.sbt.mipt.oop.home.alarm.Alarm;
+import ru.sbt.mipt.oop.home.alarm.notification.SMS;
 
 public class AlarmDecorator extends EventHandlerDecorator {
-    public AlarmDecorator(EventHandler handler) {
+    private Alarm alarm;
+
+    public AlarmDecorator(EventHandler handler, Alarm alarm) {
         super(handler);
+        this.alarm = alarm;
     }
 
     @Override
     public void handleEvent(Object object) {
-        switch (wrappee.getSmartHome().getAlarm().getState().getType()) {
+        switch (alarm.getType()) {
             case ACTIVATED:
-                super.handleEvent(object);
-                wrappee.getSmartHome().getAlarm().getState().setAlarmState();
-                sendSMS();
+                wrappee.handleEvent(object);
+                alarm.alarm();
+                new SMS().send("ALARM!");
                 break;
             case ALARM:
-                sendSMS();
+                new SMS().send("ALARM!");
                 break;
             case DEACTIVATED:
-                super.handleEvent(object);
+                wrappee.handleEvent(object);
         }
-    }
-
-    private void sendSMS() {
-        System.out.println("Sending SMS...");
     }
 }

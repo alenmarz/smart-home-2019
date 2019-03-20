@@ -1,33 +1,33 @@
 package ru.sbt.mipt.oop.home.alarm;
 
-public class AlarmState extends State {
-    private StateType type = StateType.ALARM;
+public class AlarmState implements State {
+    private Alarm alarm;
 
     public AlarmState(Alarm alarm) {
-        super(alarm);
+        this.alarm = alarm;
     }
 
     @Override
     public void activate(String code) {
-        if (alarm.checkCode(code)) {
-            alarm.changeState(new ActivatedState(alarm));
+        if (alarm.getAlarmSystem().checkCode(code)) {
+            alarm.getAlarmSystem().changeState(new ActivatedState(alarm));
         }
     }
 
     @Override
     public void deactivate(String code) {
-        if (alarm.checkCode(code)) {
-            alarm.changeState(new DeactivatedState(alarm));
+        if (alarm.getAlarmSystem().checkCode(code)) {
+            alarm.getAlarmSystem().changeState(new DeactivatedState(alarm));
         } else {
-            alarm.changeState(new AlarmState(alarm));
+            alarm.getAlarmSystem().changeState(new AlarmState(alarm));
         }
     }
 
     @Override
-    public void setAlarmState() {}
+    public void alarm() {}
 
     @Override
     public StateType getType() {
-        return type;
+        return StateType.ALARM;
     }
 }

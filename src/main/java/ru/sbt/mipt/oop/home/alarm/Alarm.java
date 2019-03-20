@@ -2,24 +2,34 @@ package ru.sbt.mipt.oop.home.alarm;
 
 import ru.sbt.mipt.oop.configuration.Configuration;
 
-public class Alarm {
-    private State state;
-    private String securityCode;
+public class Alarm implements State {
+    private AlarmSystem alarmSystem;
 
     public Alarm(Configuration configuration) {
-        this.securityCode = configuration.getSecurityCode();
-        this.state = new DeactivatedState(this);
+        alarmSystem = new AlarmSystem(configuration, this);
     }
 
-    public State getState() {
-        return state;
+    @Override
+    public void activate(String code) {
+        alarmSystem.getState().activate(code);
     }
 
-    public void changeState(State state) {
-        this.state = state;
+    @Override
+    public void deactivate(String code) {
+        alarmSystem.getState().deactivate(code);
     }
 
-    public boolean checkCode(String code) {
-        return code.equals(securityCode);
+    @Override
+    public void alarm() {
+        getAlarmSystem().getState().alarm();
+    }
+
+    @Override
+    public StateType getType() {
+        return getAlarmSystem().getState().getType();
+    }
+
+    public AlarmSystem getAlarmSystem() {
+        return alarmSystem;
     }
 }
