@@ -1,5 +1,7 @@
 package ru.sbt.mipt.oop.home.event;
 
+import java.util.Collection;
+
 public interface EventProvider {
-    Object getNextEvent();
+    Collection<Object> getEvents();
 }
