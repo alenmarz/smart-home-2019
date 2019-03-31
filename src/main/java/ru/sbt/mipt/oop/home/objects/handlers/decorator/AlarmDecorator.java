@@ -3,6 +3,7 @@ package ru.sbt.mipt.oop.home.objects.handlers.decorator;
 
 import ru.sbt.mipt.oop.home.EventHandler;
 import ru.sbt.mipt.oop.home.alarm.Alarm;
+import ru.sbt.mipt.oop.home.alarm.notification.Notification;
 import ru.sbt.mipt.oop.home.alarm.notification.SMS;
 
 public class AlarmDecorator extends EventHandlerDecorator {
@@ -15,14 +16,16 @@ public class AlarmDecorator extends EventHandlerDecorator {
 
     @Override
     public void handleEvent(Object object) {
+        Notification notification = new SMS();
+
         switch (alarm.getType()) {
             case ACTIVATED:
                 wrappee.handleEvent(object);
                 alarm.alarm();
-                new SMS().send("ALARM!");
+                notification.send("ALARM!");
                 break;
             case ALARM:
-                new SMS().send("ALARM!");
+                notification.send("ALARM!");
                 break;
             case DEACTIVATED:
                 wrappee.handleEvent(object);
