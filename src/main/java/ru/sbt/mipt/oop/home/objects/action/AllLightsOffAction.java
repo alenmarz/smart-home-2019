@@ -11,10 +11,10 @@ import ru.sbt.mipt.oop.home.objects.Room;
 
 import java.util.Collection;
 
-public class AllLightsAction implements Action {
+public class AllLightsOffAction implements Action {
     private CommandExecutor executor;
 
-    public AllLightsAction(CommandExecutor executor) {
+    public AllLightsOffAction(CommandExecutor executor) {
         this.executor = executor;
     }
 

@@ -1,6 +1,6 @@
 package ru.sbt.mipt.oop.home.objects.handlers;
 
-import ru.sbt.mipt.oop.home.objects.action.AllLightsAction;
+import ru.sbt.mipt.oop.home.objects.action.AllLightsOffAction;
 import ru.sbt.mipt.oop.home.SmartHome;
 import ru.sbt.mipt.oop.home.EventHandler;
 import ru.sbt.mipt.oop.home.command.CommandExecutor;
@@ -29,7 +29,7 @@ public class HallDoorEventHandler implements EventHandler {
         for (Room room: smartHome.getRooms()) {
             Door door = room.getDoorById(sensorEvent.getObjectId());
             if (room.getName().equals("hall") && door != null) {
-                smartHome.execute(new AllLightsAction(executor));
+                smartHome.execute(new AllLightsOffAction(executor));
             }
         }
     }
